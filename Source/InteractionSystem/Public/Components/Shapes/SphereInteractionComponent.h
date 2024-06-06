@@ -3,31 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 #include "Interfaces/WorldHoverable.h"
 #include "Interfaces/Triggerable.h"
-#include "BoxInteractionComponent.generated.h"
+#include "SphereInteractionComponent.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnBoxInteractionHoverBeginSignature, UBoxInteractionComponent*, BoxInteraction, FHitResult, CursorHit);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBoxInteractionHoverEndSignature, UBoxInteractionComponent*, BoxInteraction);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSphereInteractionHoverBeginSignature, USphereInteractionComponent*, SphereInteraction, FHitResult, CursorHit);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSphereInteractionHoverEndSignature, USphereInteractionComponent*, SphereInteraction);
 
 /**
  * 
  */
 
 UCLASS( Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class INTERACTIONSYSTEM_API UBoxInteractionComponent : public UBoxComponent, public IWorldHoverable, public ITriggerable
+class INTERACTIONSYSTEM_API USphereInteractionComponent : public USphereComponent, public IWorldHoverable, public ITriggerable
 {
 	GENERATED_BODY()
 
 public:
 
 	UPROPERTY(BlueprintAssignable)
-	FOnBoxInteractionHoverBeginSignature OnHoverBegin;
+	FOnSphereInteractionHoverBeginSignature OnHoverBegin;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnBoxInteractionHoverEndSignature OnHoverEnd;
+	FOnSphereInteractionHoverEndSignature OnHoverEnd;
 
 	/** Trigger */
 
