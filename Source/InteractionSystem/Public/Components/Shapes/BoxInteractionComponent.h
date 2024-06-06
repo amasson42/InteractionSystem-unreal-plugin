@@ -31,8 +31,8 @@ public:
 
 	/** Trigger */
 
-	virtual void Trigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload) override;
-	virtual void ReleaseTrigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload) override;
+	virtual void Trigger_Implementation(AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload) override;
+	virtual void ReleaseTrigger_Implementation(AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload) override;
 	virtual ETriggerMode GetTriggerMode_Implementation() const override;
 
 

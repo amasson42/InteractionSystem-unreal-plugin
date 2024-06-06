@@ -20,7 +20,7 @@ void UObjectTriggererComponent::BeginPlay()
 }
 
 
-void UObjectTriggererComponent::ExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::ExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
 	if (IsValid(TriggerableObject) && TriggerableObject->Implements<UTriggerable>())
 	{
@@ -28,19 +28,19 @@ void UObjectTriggererComponent::ExecuteTrigger(UObject* TriggerableObject, ACont
 		switch (TriggerMode)
 		{
 		case ETriggerMode::TM_Server:
-			Server_ExecuteTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Server_ExecuteTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		case ETriggerMode::TM_Client:
-			Client_ExecuteTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Client_ExecuteTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		case ETriggerMode::TM_Multicast:
-			Server_MulticastExecuteTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Server_MulticastExecuteTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		}
 	}
 }
 
-void UObjectTriggererComponent::ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
 	if (IsValid(TriggerableObject) && TriggerableObject->Implements<UTriggerable>())
 	{
@@ -48,63 +48,63 @@ void UObjectTriggererComponent::ExecuteReleaseTrigger(UObject* TriggerableObject
 		switch (TriggerMode)
 		{
 		case ETriggerMode::TM_Server:
-			Server_ExecuteReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Server_ExecuteReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		case ETriggerMode::TM_Client:
-			Client_ExecuteReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Client_ExecuteReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		case ETriggerMode::TM_Multicast:
-			Server_MulticastExecuteReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+			Server_MulticastExecuteReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 			break;
 		}
 	}
 }
 
 
-void UObjectTriggererComponent::Server_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Server_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_Trigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_Trigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::Client_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Client_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_Trigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_Trigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::Server_MulticastExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Server_MulticastExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	UObjectTriggererComponent* Triggerer = GlobalObjectTriggerer;
-	if (!IsValid(Triggerer))
-		Triggerer = this;
-	Triggerer->NetMulticast_ExecuteTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	UObjectTriggererComponent* ObjectTriggerer = GlobalObjectTriggerer;
+	if (!IsValid(ObjectTriggerer))
+		ObjectTriggerer = this;
+	ObjectTriggerer->NetMulticast_ExecuteTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::NetMulticast_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::NetMulticast_ExecuteTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_Trigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_Trigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::Server_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Server_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::Client_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Client_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::Server_MulticastExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::Server_MulticastExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	UObjectTriggererComponent* Triggerer = GlobalObjectTriggerer;
-	if (!IsValid(Triggerer))
-		Triggerer = this;
-	Triggerer->NetMulticast_ExecuteReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	UObjectTriggererComponent* ObjectTriggerer = GlobalObjectTriggerer;
+	if (!IsValid(ObjectTriggerer))
+		ObjectTriggerer = this;
+	ObjectTriggerer->NetMulticast_ExecuteReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
-void UObjectTriggererComponent::NetMulticast_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UObjectTriggererComponent::NetMulticast_ExecuteReleaseTrigger_Implementation(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
-	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggeringController, TriggeringActor, Tag, Payload);
+	ITriggerable::Execute_ReleaseTrigger(TriggerableObject, TriggererController, Triggerer, Tag, Payload);
 }
 
 UObjectTriggererComponent* UObjectTriggererComponent::GetGlobalObjectTriggererComponent() const

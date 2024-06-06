@@ -19,36 +19,36 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger")
-	void ExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void ExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger")
-	void ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 protected:
 
 	UFUNCTION(Server, Reliable)
-	void Server_ExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Server_ExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(Client, Reliable)
-	void Client_ExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Client_ExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(Server, Reliable)
-	void Server_MulticastExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Server_MulticastExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void NetMulticast_ExecuteTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void NetMulticast_ExecuteTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(Server, Reliable)
-	void Server_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Server_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(Client, Reliable)
-	void Client_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Client_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(Server, Reliable)
-	void Server_MulticastExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void Server_MulticastExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void NetMulticast_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
+	void NetMulticast_ExecuteReleaseTrigger(UObject* TriggerableObject, AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload);
 
 
 	UObjectTriggererComponent* GetGlobalObjectTriggererComponent() const;

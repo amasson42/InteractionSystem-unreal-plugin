@@ -5,19 +5,19 @@
 
 /** Trigger */
 
-void UBoxInteractionComponent::Trigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UBoxInteractionComponent::Trigger_Implementation(AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
     if (IsValid(TriggerTargetActor) && TriggerTargetActor->Implements<UTriggerable>())
     {
-        ITriggerable::Execute_Trigger(TriggerTargetActor, TriggeringController, TriggeringActor, this->TriggerTag, this->TriggerPayload);
+        ITriggerable::Execute_Trigger(TriggerTargetActor, TriggererController, Triggerer, this->TriggerTag, this->TriggerPayload);
     }
 }
 
-void UBoxInteractionComponent::ReleaseTrigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
+void UBoxInteractionComponent::ReleaseTrigger_Implementation(AController* TriggererController, UObject* Triggerer, FName Tag, UObject* Payload)
 {
     if (IsValid(TriggerTargetActor) && TriggerTargetActor->Implements<UTriggerable>())
     {
-        ITriggerable::Execute_ReleaseTrigger(TriggerTargetActor, TriggeringController, TriggeringActor, this->TriggerTag, this->TriggerPayload);
+        ITriggerable::Execute_ReleaseTrigger(TriggerTargetActor, TriggererController, Triggerer, this->TriggerTag, this->TriggerPayload);
     }
 }
 
