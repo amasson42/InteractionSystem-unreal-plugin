@@ -34,10 +34,10 @@ class INTERACTIONSYSTEM_API ITriggerable
 public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Triggerable")
-	void Trigger(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload);
+	void Trigger(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Triggerable")
-	void ReleaseTrigger(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload);
+	void ReleaseTrigger(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Triggerable")
 	ETriggerMode GetTriggerMode() const;

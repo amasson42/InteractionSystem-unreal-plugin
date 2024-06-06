@@ -5,27 +5,27 @@
 
 /** Trigger */
 
-void UBoxInteractionComponent::Trigger_Implementation(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload)
+void UBoxInteractionComponent::Trigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
 {
-    if (IsValid(TriggeringActor) && TriggeringActor->Implements<UTriggerable>())
+    if (IsValid(TriggerTargetActor) && TriggerTargetActor->Implements<UTriggerable>())
     {
-        ITriggerable::Execute_Trigger(TriggeringActor, TriggeringController, TriggeringPawn, this->TriggeringTag, this->TriggeringPayload);
+        ITriggerable::Execute_Trigger(TriggerTargetActor, TriggeringController, TriggeringActor, this->TriggerTag, this->TriggerPayload);
     }
 }
 
-void UBoxInteractionComponent::ReleaseTrigger_Implementation(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload)
+void UBoxInteractionComponent::ReleaseTrigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload)
 {
-    if (IsValid(TriggeringActor) && TriggeringActor->Implements<UTriggerable>())
+    if (IsValid(TriggerTargetActor) && TriggerTargetActor->Implements<UTriggerable>())
     {
-        ITriggerable::Execute_ReleaseTrigger(TriggeringActor, TriggeringController, TriggeringPawn, this->TriggeringTag, this->TriggeringPayload);
+        ITriggerable::Execute_ReleaseTrigger(TriggerTargetActor, TriggeringController, TriggeringActor, this->TriggerTag, this->TriggerPayload);
     }
 }
 
 ETriggerMode UBoxInteractionComponent::GetTriggerMode_Implementation() const
 {
-    if (IsValid(TriggeringActor) && TriggeringActor->Implements<UTriggerable>())
+    if (IsValid(TriggerTargetActor) && TriggerTargetActor->Implements<UTriggerable>())
     {
-        return ITriggerable::Execute_GetTriggerMode(TriggeringActor);
+        return ITriggerable::Execute_GetTriggerMode(TriggerTargetActor);
     }
     return ETriggerMode::TM_Client;
 }

@@ -31,8 +31,8 @@ public:
 
 	/** Trigger */
 
-	virtual void Trigger_Implementation(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload) override;
-	virtual void ReleaseTrigger_Implementation(AController* TriggeringController, APawn* TriggeringPawn, FName Tag, UObject* Payload) override;
+	virtual void Trigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload) override;
+	virtual void ReleaseTrigger_Implementation(AController* TriggeringController, AActor* TriggeringActor, FName Tag, UObject* Payload) override;
 	virtual ETriggerMode GetTriggerMode_Implementation() const override;
 
 
@@ -47,13 +47,13 @@ public:
 	/** Trigger Properties */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-	TObjectPtr<AActor> TriggeringActor;
+	TObjectPtr<AActor> TriggerTargetActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-	FName TriggeringTag;
+	FName TriggerTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-	TObjectPtr<UObject> TriggeringPayload;
+	TObjectPtr<UObject> TriggerPayload;
 
 
 	/** Hovering Properties */
