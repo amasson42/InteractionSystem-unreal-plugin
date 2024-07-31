@@ -97,7 +97,18 @@ void UInteractionControllerComponent::UpdateHover()
 	if (!IsValid(OwningPlayerController))
 		return;
 
-	OwningPlayerController->GetHitResultUnderCursor(CursorChannel, false, CursorHit);
+    if (OwningPlayerController->bShowMouseCursor)
+    {
+    	OwningPlayerController->GetHitResultUnderCursor(CursorChannel, false, CursorHit);
+    }
+    else
+    {
+        int32 ScreenSizeX, ScreenSizeY;
+        OwningPlayerController->GetViewportSize(ScreenSizeX, ScreenSizeY);
+        FVector2D ScreenPosition(ScreenSizeX * CursorPositionWhenLocked.X, ScreenSizeY * CursorPositionWhenLocked.Y);
+
+        OwningPlayerController->GetHitResultAtScreenPosition(ScreenPosition, CursorChannel, false, CursorHit);
+    }
 
 	UObject* NewHitObject = GetHoverableObjectFromCursorHit();
 

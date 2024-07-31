@@ -73,6 +73,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Cursor", meta = (AllowPrivateAccess = true))
 	TEnumAsByte<ECollisionChannel> CursorChannel;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor", meta = (AllowPrivateAccess = true))
+    FVector2D CursorPositionWhenLocked = FVector2D(0.5f, 0.5f);
+
 	UPROPERTY()
 	FHitResult CursorHit;
 
