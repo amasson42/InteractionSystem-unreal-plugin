@@ -5,6 +5,7 @@
 #include "GameFramework/PlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "UI/InteractionSystemWidget.h"
 
 
 UInteractionControllerComponent::UInteractionControllerComponent()
@@ -34,6 +35,13 @@ void UInteractionControllerComponent::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("UInteractionControllerComponent is not owned by a valid APlayerController"));
 	}
+
+    if (InteractionWidgetClass)
+    {
+        InteractionWidget = CreateWidget<UInteractionSystemWidget>(GetWorld(), InteractionWidgetClass);
+        InteractionWidget->InteractionControllerComponent = this;
+        InteractionWidget->AddToViewport();
+    }
 }
 
 void UInteractionControllerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

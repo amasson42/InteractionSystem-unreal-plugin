@@ -9,6 +9,7 @@
 #include "InteractionControllerComponent.generated.h"
 
 class APlayerController;
+class UInteractionSystemWidget;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHoverObjectChangedSignature, UInteractionControllerComponent*, InteractionComponent, UObject*, WorldHoverable);
@@ -82,8 +83,14 @@ protected:
 	UPROPERTY()
 	TWeakObjectPtr<UObject> HoveredObject;
 
-	UPROPERTY(EditAnywhere, Category = "Action", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action", meta = (AllowPrivateAccess = true))
 	TObjectPtr<class UInputAction> InteractionInput;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget")
+    TSubclassOf<UInteractionSystemWidget> InteractionWidgetClass;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Widget")
+    TObjectPtr<UInteractionSystemWidget> InteractionWidget;
 
 	bool bHoveredObjectPressed = false;
 
