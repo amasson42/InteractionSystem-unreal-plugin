@@ -3,6 +3,8 @@
 
 #include "Components/InteractionControllerComponent.h"
 #include "GameFramework/PlayerController.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 
 
 UInteractionControllerComponent::UInteractionControllerComponent()
@@ -17,7 +19,18 @@ void UInteractionControllerComponent::BeginPlay()
 
 	OwningPlayerController = Cast<APlayerController>(GetOwner());
 
-	if (!IsValid(OwningPlayerController))
+	if (IsValid(OwningPlayerController))
+    {
+        if (IsValid(InteractionInput))
+        {
+            if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(OwningPlayerController->InputComponent))
+            {
+                EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Started, this, &ThisClass::TriggerHoveredObject);
+                EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Completed, this, &ThisClass::ReleaseTriggerHoveredObject);
+            }
+        }
+    }
+    else
 	{
 		UE_LOG(LogTemp, Error, TEXT("UInteractionControllerComponent is not owned by a valid APlayerController"));
 	}

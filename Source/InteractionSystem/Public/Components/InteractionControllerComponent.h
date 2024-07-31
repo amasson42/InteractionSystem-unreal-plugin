@@ -82,8 +82,8 @@ protected:
 	UPROPERTY()
 	TWeakObjectPtr<UObject> HoveredObject;
 
-	// UPROPERTY(EditAnywhere, Category = "Cursor", meta = (AllowPrivateAccess = true))
-	// TObjectPtr<UInputAction> InteractionInput;
+	UPROPERTY(EditAnywhere, Category = "Action", meta = (AllowPrivateAccess = true))
+	TObjectPtr<class UInputAction> InteractionInput;
 
 	bool bHoveredObjectPressed = false;
 
