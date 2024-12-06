@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "UI/InteractionSystemWidget.h"
+#include "GameFramework/HUD.h"
 
 
 UInteractionControllerComponent::UInteractionControllerComponent()
@@ -20,28 +21,28 @@ void UInteractionControllerComponent::BeginPlay()
 
 	OwningPlayerController = Cast<APlayerController>(GetOwner());
 
-	if (IsValid(OwningPlayerController))
-    {
-        if (IsValid(InteractionInput))
-        {
-            if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(OwningPlayerController->InputComponent))
-            {
-                EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Started, this, &ThisClass::TriggerHoveredObject);
-                EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Completed, this, &ThisClass::ReleaseTriggerHoveredObject);
-            }
-        }
-    }
-    else
+	if (!IsValid(OwningPlayerController))
 	{
 		UE_LOG(LogTemp, Error, TEXT("UInteractionControllerComponent is not owned by a valid APlayerController"));
+		return;
 	}
 
-    if (InteractionWidgetClass)
-    {
-        InteractionWidget = CreateWidget<UInteractionSystemWidget>(GetWorld(), InteractionWidgetClass);
-        InteractionWidget->InteractionControllerComponent = this;
-        InteractionWidget->AddToViewport();
-    }
+	if (IsValid(InteractionInput))
+	{
+		UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(OwningPlayerController->InputComponent);
+		if (IsValid(EnhancedInputComponent))
+		{
+			EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Started, this, &ThisClass::TriggerHoveredObject);
+			EnhancedInputComponent->BindAction(InteractionInput, ETriggerEvent::Completed, this, &ThisClass::ReleaseTriggerHoveredObject);
+		}
+	}
+
+	if (IsValid(InteractionWidgetClass) && IsValid(OwningPlayerController->GetHUD()))
+	{
+		InteractionWidget = CreateWidget<UInteractionSystemWidget>(OwningPlayerController, InteractionWidgetClass);
+		InteractionWidget->InteractionControllerComponent = this;
+		InteractionWidget->AddToViewport();
+	}
 }
 
 void UInteractionControllerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
